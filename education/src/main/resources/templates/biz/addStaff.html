@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>新增员工</title>
+
+</head>
+<body>
+<div class="pageContent">
+    <form id="inputForm" method="post" name="inputForm"
+          action="staff/addStaff">
+
+        <div class="pageFormContent" layoutH="56">
+            <p>
+                <label>姓名：</label>
+                <input type="text" class="required bring_roughUrl"/>
+            </p>
+            <p style="width: 600px;">
+                <label>性别：</label>
+                <input type="text" class="required bring_roughUrl"/>
+            </p>
+            <p>
+                <label>身份证号：</label>
+                <input type="text" class="required bring_roughTitle" />
+            </p>
+            <p>
+                <label>部门ID：</label>
+                <input type="text" class="required bring_roughUrl"/>
+            </p>
+
+            <p>
+                <label>职位ID：</label>
+                <input type="text" class="required bring_roughUrl"/>
+            </p>
+            <p>
+                <label>登录帐号：</label>
+                <input type="text" class="required bring_roughUrl" />
+            </p>
+            <p>
+                <label>登录密码：</label>
+                <input type="text" class="required bring_roughUrl" />
+            </p>
+
+        </div>
+        <div class="formBar">
+            <ul>
+                <li><div
+                        class="buttonActive">
+                    <div class="buttonContent">
+                        <button type="submit">保存</button>
+                    </div>
+                </div></li>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" class="close">取消</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>
+</body>
+</html>

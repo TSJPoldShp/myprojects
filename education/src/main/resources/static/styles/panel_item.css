@@ -1,0 +1,93 @@
+
+.boxgrid {
+	width: 250px;
+	height: 100px;
+	margin: 10px;
+	float: left;
+	background: #9A9A7B;
+	border: solid 2px #70B9E3;
+	overflow: hidden;
+	position: relative;
+}
+
+.boxgrid img {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	height: 100%;
+}
+
+.boxgrid p {
+	padding: 0 10px;
+	color: #afafaf;
+	font-weight: bold;
+	font: 10pt "微软雅黑", Arial, sans-serif;
+}
+
+.boxgrid p a {
+	padding: 0 10px;
+	color: red;
+	font-weight: bold;
+	font: 10pt "微软雅黑", Arial, sans-serif;
+}
+
+.boxcaption {
+	float: left;
+	position: absolute;
+	background: #000;
+	/* height: 10%; */
+	width: 100%;
+	opacity: .8;
+	/* For IE 5-7 */
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+	/* For IE 8 */
+	-MS-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+}
+
+.caption .boxcaption {
+	top: 10;
+	left: 0;
+}
+
+.hw {
+	height: 224px;
+	width: 161px;
+}
+.hw1 {
+	height: 220px;
+	width: 161px;
+}
+.hw2 {
+	height: 460px;
+	width: 340px;
+}
+
+.hw3 {
+	height: 220px;
+	width: 530px;
+}
+
+.hw4 {
+	height: 220px;
+	width: 251px;
+}
+.scroll {
+	width: 99%; /*宽度*/
+	height: 450px; /*高度*/
+	color:; /*颜色*/
+	font-family:; /*字体*/
+	padding-left: 10px; /*层内左边距*/
+	padding-right: 10px; /*层内右边距*/
+	padding-top: 10px; /*层内上边距*/
+	padding-bottom: 10px; /*层内下边距*/
+	overflow-x: auto; /*横向滚动条(scroll:始终出现;auto:必要时出现;具体参考CSS文档)*/
+	overflow-y: auto; /*竖向滚动条*/
+	scrollbar-face-color: #D4D4D4; /*滚动条滑块颜色*/
+	scrollbar-hightlight-color: #ffffff; /*滚动条3D界面的亮边颜色*/
+	scrollbar-shadow-color: #919192; /*滚动条3D界面的暗边颜色*/
+	scrollbar-3dlight-color: #ffffff; /*滚动条亮边框颜色*/
+	scrollbar-arrow-color: #919192; /*箭头颜色*/
+	scrollbar-track-color: #ffffff; /*滚动条底色*/
+	scrollbar-darkshadow-color: #ffffff; /*滚动条暗边框颜色*/
+}

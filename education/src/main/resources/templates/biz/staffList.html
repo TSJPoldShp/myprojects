@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" charset="UTF-8"/>
+    <title>员工管理</title>
+    <script th:inline="javascript">
+        var openid = [[${cpnStaffs.get(0).loginName}]]
+        //alert(openid);
+    </script>
+</head>
+<body>
+<form id="pagerForm" action="sysUser/sysUserList" method="post">
+    <!--【必须】value=1可以写死-->
+    <input type="hidden" name="pageNum" th:value="${pageNum}" />
+    <!--【可选】每页显示多少条-->
+    <input type="hidden" name="numPerPage" th:value="${numPerPage}" />
+    <!--【查询条件】用户名字-->
+    <input type="hidden" name="search_LIKE_name"
+           th:value="${#strings.isEmpty(param.search_LIKE_name)}?'':${param.search_LIKE_name[0]}" />
+</form>
+
+<div class="pageHeader">
+    <form onsubmit="return navTabSearch(this);"
+          action="sysUser/sysUserList">
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                        <td style="padding: 5px 5px 0 0">姓名：<input type="text" name="search_LIKE_name"
+                                                                    th:value="${#strings.isEmpty(param.search_LIKE_name)}?'':${param.search_LIKE_name[0]}" />
+                        </td>
+                        <td><div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit">检索</button>
+                            </div>
+                        </div></td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="pageContent">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a class="add" href="rawMaterial/import" target="dialog" mask="true"  width="508" height="187"><span>导入</span></a></li>
+                <li><a href="templet/hvms_raw_material.xls" class="add" ><span>下载模版</span></a></li>
+                <li><a class="add" href="staff/toAddStaff" target="dialog"
+                       rel="dialog1" mask="true" height="400"><span>添加员工</span></a></li>
+                <li><a class="edit" href="sysUser/toUpdateStaff/{staffId}" rel="ids"
+                       id="staffUpdate" warn="请选中其中一条记录" target="dialog" mask="true" height="400"><span>修改员工</span></a></li>
+                <li><a title="确实要删除这些记录吗?" target="selectedTodo" rel="ids"
+                       href="sysUser/delete" class="delete" warn="请选中其中要删除的记录"><span>删除员工</span></a></li>
+        </ul>
+    </div>
+    <table class="table" width="99%" layoutH="116">
+        <thead>
+        <tr>
+            <th width="40" align="center">
+                <input type="checkbox" group="ids" class="checkboxCtrl" /></th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>身份证号</th>
+            <th>部门ID</th>
+            <th>职位ID</th>
+            <th>登录帐号</th>
+            <th>创建时间</th>
+            <th>创建人</th>
+            <th>更新时间</th>
+            <th>更新人</th>
+        </tr>
+        </thead>
+        <tbody id="update">
+        <tr target="id" th:each="staff:${cpnStaffs}" th:rel="${staff.staffId}"
+            th:ondblclick="'detailInfo('+${staff.staffId}+')'">
+            <td><input type="hidden" th:id="${staff.staffId}"/>
+                <input name="ids" th:value="${staff.staffId}" type="checkbox"/></td>
+            <td th:text="${staff.staffName}"></td>
+            <td th:text="${staff.staffGender}"></td>
+            <td th:text="${staff.staffNumber}"></td>
+            <td th:text="${staff.departmentId}"></td>
+            <td th:text="${staff.positionId}"></td>
+            <td th:text="${staff.loginName}"></td>
+            <td th:text="${staff.createTime}"></td>
+            <td th:text="${staff.createBy}"></td>
+            <td th:text="${staff.updateTime}"></td>
+            <td th:text="${staff.updateBy}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="panelBar">
+        <div class="pages">
+            <span>显示</span> <select class="combox" name="numPerPage"
+                                    onchange="navTabPageBreak({numPerPage:this.value})">
+            <option value="20" th:if="${numPerPage==20}" selected="selected">20</option>
+            <option value="20" th:if="${numPerPage!=20}">20</option>
+            <option value="50" th:if="${numPerPage==50}" selected="selected">50</option>
+            <option value="50" th:if="${numPerPage!=50}" >50</option>
+            <option value="100" th:if="${numPerPage==100}" selected="selected">100</option>
+            <option value="100" th:if="${numPerPage!=100}">100</option>
+        </select> <span th:text="'条，共'+2+'条'"></span>
+        </div>
+        <div class="pagination" targetType="navTab"
+             th:attr="totalCount=${totalCount}, numPerPage=${numPerPage},
+             pageNumShown=10, currentPage=${pageNum}"></div>
+    </div>
+</div>
+</body>
+</html>

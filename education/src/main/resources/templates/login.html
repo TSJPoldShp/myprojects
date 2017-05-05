@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>热点短视频生产管理系统(V1.1.0)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script th:src="@{dwz/js/login/login.js}"></script>
+</head>
+<style th:inline="text">
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: #d1f1fc url([[${#ctx.httpServletRequest.contextPath}]]/images/body_bg.jpg) no-repeat right 0;
+        font: tahoma, Arial, Helvetica, sans-serif;
+        text-align: center;
+        overflow: auto;
+    }
+
+    img {
+        border: 0
+    }
+
+    h1 {
+        font-size: 200%;
+        margin: 0
+    }
+
+    h2 {
+        font-size: 130%;
+        margin: 1em 0 .5em
+    }
+
+    h3 {
+        font-size: 100%;
+        margin: 1em 0 .5em
+    }
+
+    h4 {
+        font-size: 90%;
+        margin: 1em 0
+    }
+
+    p {
+        margin: 0 0 1em 0
+    }
+
+    #login {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 500px;
+        height: 270px;
+        margin: -135px 0 0 -250px;
+        background: url([[${#ctx.httpServletRequest.contextPath}]]/images/login_area.jpg) no-repeat 0 0;
+        text-align: left;
+        z-index: 9001;
+    }
+
+    #shadow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 500px;
+        height: 270px;
+        margin: -132px 0 0 -247px;
+        z-index: 9000;
+        filter: progid:DXImageTransform.Microsoft.alpha(opacity=50) progid:DXImageTransform.Microsoft.Blur(pixelradius=2);
+        -moz-opacity: 0.5;
+        opacity: .50;
+        background-color: #777;
+    }
+
+    #about {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        cursor: pointer;
+        font: 11px "Trebuchet MS";
+        color: #5ab3f4;
+    }
+
+    #login h1 {
+        margin-bottom: 10px;
+        padding: 0px 0 0 10px;
+        font: 22px/50px "微软雅黑", tahoma;
+        text-indent: 60px;
+        text-align: left;
+    }
+
+    #login form {
+        height: 200px;
+        padding-left: 170px;
+        background: url([[${#ctx.httpServletRequest.contextPath}]]/images/users.gif) no-repeat 20px 20px;
+    }
+
+    .error_message {
+        color: #d00;
+        font: 12px/2 "微软雅黑", tahoma;
+    }
+
+    #login form p {
+        clear: both;
+        margin: 5px 0;
+    }
+
+    #login form p img {
+        vertical-align: middle;
+    }
+
+    #login form p label {
+        width: 50px;
+        display: inline-block;
+        font: 12px/2 "微软雅黑", tahoma;
+        color: #246bb3;
+    }
+
+    #login_ctr {
+        text-indent: 58px;
+    }
+
+    #login form p .logintxt {
+        font: 12px/16px tahoma;
+        height: 20px;
+        border: 1px solid #ccc;
+    }
+
+    #login form p input.logintxt {
+        padding: 0 2px;
+    }
+
+    #login img {
+        cursor: hand;
+    }
+
+    .w1 {
+        width: 230px;
+    }
+
+    .w2 {
+        width: 230px;
+    }
+
+    #copyright {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        border-top: 1px solid #87c8f7;
+        font: 12px/2 "Trebuchet MS", arial;
+        border-collapse: collapse;
+    }
+
+    #copyright td {
+        padding-left: 10px;
+        text-align: left;
+    }
+
+    #copyright th {
+        width: 120px;
+    }
+
+    #copyright th a {
+        font: normal 12px "Trebuchet MS", arial;
+        padding-left: 20px;
+        color: #000;
+        text-decoration: none;
+    }
+</style>
+<body onKeyPress="EnterSumbit()" >
+<div id="shadow" style="visibility: hidden;"></div>
+<div id="login">
+    <h1 id='appTitle'>热点短视频生产管理系统 (V1.1.0)</h1>
+    <form name="loginForm" id="loginForm" method="post" th:action="@{/getLogin}">
+        <div class="alert alert-error input-medium controls" th:if="!${#strings.isEmpty(msg)}">
+            <button class="close" data-dismiss="alert">×</button>
+            <font style="color: red" th:text="${msg}">
+            </font>
+        </div>
+        <div id='loginbody'>
+            <p class="error_message" id="error_message">&nbsp;</p>
+
+            <p>
+                <label for='userId'>用户</label> <input type="text" name="username"
+                                                      id="username" class="logintxt w1" th:value="${username}" />
+            </p>
+            <p>
+                <label for='pass'>密码</label> <input type="password" name="password"
+                                                    id="password" class="logintxt w1" th:value="${password}" />
+            </p>
+            <p id="login_ctr">
+                <input type="image" th:src="@{/images/login_submit.png}"/>
+            </p>
+        </div>
+    </form>
+</div>
+</body>
+</html>
