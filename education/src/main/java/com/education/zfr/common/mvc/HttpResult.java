@@ -3,7 +3,7 @@ package com.education.zfr.common.mvc;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * Created by bob on 2017/4/24.
+ * Created by zangfr on 2017/4/24.
  */
 public class HttpResult {
     private String statusCode;

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- * Created by bob on 2017/4/25.
+ * Created by zangfr on 2017/4/25.
  */
 public interface PositionStaffRelDao extends PagingAndSortingRepository<CpnPositionStaffRel,Long>,JpaSpecificationExecutor<CpnPositionStaffRel> {
     CpnPositionStaffRel findByStaffIdAndPositionId(Long staffId,Long positionId);

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- * Created by bob on 2017/4/25.
+ * Created by zangfr on 2017/4/25.
  */
 public interface DepartmentStaffRelDao extends PagingAndSortingRepository<CpnDepartmentStaffRel,Long>,JpaSpecificationExecutor<CpnDepartmentStaffRel> {
     CpnDepartmentStaffRel findByStaffIdAndDepartmentId(Long staffId,Long departmentId);

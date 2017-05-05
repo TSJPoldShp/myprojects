@@ -20,7 +20,7 @@ public class LoginController {
         if( null != cpnStaff){
             return "index";
         }
-        return "login";
+        return "/sys/login";
     }
 
     @RequestMapping("index")

@@ -1,7 +1,11 @@
 package com.education.zfr.biz.dao;
 
+import com.education.zfr.biz.entity.CpnPosition;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
 /**
- * Created by YSTen on 2017/5/5.
+ * Created by zangfr on 2017/5/5.
  */
-public interface PositionDao {
+public interface PositionDao  extends PagingAndSortingRepository<CpnPosition,Long>,JpaSpecificationExecutor<CpnPosition> {
 }

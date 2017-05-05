@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Created by bob on 2017/4/24.
+ * Created by zangfr on 2017/4/24.
  */
 @Controller
 public class SingleTableController {
