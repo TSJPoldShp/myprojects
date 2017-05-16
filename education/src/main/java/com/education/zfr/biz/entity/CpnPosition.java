@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class CpnPosition{
 
     /**
-     *
+     *职位编号
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +22,13 @@ public class CpnPosition{
     private Long positionId;
 
     /**
-     *
+     *上级职位编号
      */
     @Column(name="PARENT_ID")
     private Long parentId;
 
     /**
-     *
+     *职位名称
      */
     @Column(name="POSITION_NAME")
     private String positionName;

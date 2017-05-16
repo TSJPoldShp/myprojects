@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class CpnDepartment{
 
     /**
-     *
+     *部门编号
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,19 +23,19 @@ public class CpnDepartment{
     private Long departmentId;
 
     /**
-     *
+     *父部门编号
      */
     @Column(name="PARENT_ID")
     private Long parentId;
 
     /**
-     *
+     *部门名称
      */
     @Column(name="DEPARTMENT_NAME")
     private String departmentName;
 
     /**
-     *
+     *部门详细
      */
     @Column(name="DEPARTMENT_DESC")
     private String departmentDesc;

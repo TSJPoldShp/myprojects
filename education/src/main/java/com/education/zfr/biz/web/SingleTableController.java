@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,7 +22,22 @@ public class SingleTableController {
     @Autowired
     private SingleTableService singleTableService;
 
+    /**
+     * 进入员工导入页面
+     * @return
+     */
+    @RequestMapping("toImportExcel")
+    public String toImPortExcel(){
+        return "biz/staff/importExcel";
+    }
+
+    /**
+     *员工导入
+     * @param request
+     * @return
+     */
     @RequestMapping("importExcel")
+    @ResponseBody
     public HttpResult importExcel(HttpServletRequest request){
         HttpResult result = new HttpResult();
         try {

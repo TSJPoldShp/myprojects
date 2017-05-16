@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>新增员工</title>
+    <title>员工表格导入</title>
     <script th:inline="javascript">
         function dialogAjaxDone(json) {
             ajaxDone(json);
@@ -45,60 +45,39 @@
     </script>
 </head>
 <body>
-<div class="pageContent">
-    <form id="inputForm" method="post" name="inputForm"
-          action="staff/addStaff" th:object="${staff}"
-          onsubmit="return iframeCallback(this,dialogAjaxDone);">
-
-        <div class="pageFormContent" layoutH="56">
-            <p>
-                <label>姓名：</label>
-                <input type="text" class="required bring_staffName" name="staffName" th:value="${staffName}"/>
-            </p>
-            <p style="width: 600px;">
-                <label>性别：</label>
-                <input type="text" class="required bring_staffGender" name="staffGender" th:value="${staffGender}"/>
-            </p>
-            <p>
-                <label>身份证号：</label>
-                <input type="text" class="required bring_staffNumber" name="staffNumber" th:value="${staffNumber}"/>
-            </p>
-            <p>
-                <label>部门ID：</label>
-                <input type="text" class="required bring_departmentId" name="departmentId" th:value="${departmentId}"/>
-            </p>
-            <p>
-                <label>职位ID：</label>
-                <input type="text" class="required bring_positionId" name="positionId" th:value="${positionId}"/>
-            </p>
-            <p>
-                <label>登录帐号：</label>
-                <input type="text" class="required bring_loginName" name="loginName" th:value="${loginName}"/>
-            </p>
-            <p>
-                <label>登录密码：</label>
-                <input type="password" class="required bring_loginPwd" name="loginPwd" th:value="${loginPwd}"/>
-            </p>
+<form id="uploadForm" action="importExcel" method="post" enctype="multipart/form-data"
+      class="pageForm required-validate" onsubmit="return iframeCallback(this,dialogAjaxDone);">
+    <div class="pageContent">
+        <div class="pageFormContent" layoutH="50">
+            <div id="item0">
+                <dl style="400px;">
+                    <dt>Excel文件：</dt>
+                    <dd>
+                        <input type="file" accept="application/vnd.ms-excel" name="outterCR" id="outterCR"
+                               class="required"/>
+                    </dd>
+                </dl>
+            </div>
         </div>
         <div class="formBar">
             <ul>
                 <li>
                     <div class="buttonActive">
                         <div class="buttonContent">
-                            <button type="submit">保存</button>
+                            <button type="submit">上传</button>
                         </div>
                     </div>
                 </li>
                 <li>
                     <div class="button">
                         <div class="buttonContent">
-                            <button type="button" class="close">取消</button>
+                            <button class="close" type="button">关闭</button>
                         </div>
                     </div>
                 </li>
             </ul>
         </div>
-    </form>
-</div>
+    </div>
+</form>
 </body>
 </html>

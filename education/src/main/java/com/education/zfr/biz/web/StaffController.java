@@ -7,23 +7,25 @@ import com.education.zfr.biz.service.DepartmentStaffRelService;
 import com.education.zfr.biz.service.PositionStaffRelService;
 import com.education.zfr.biz.service.StaffService;
 import com.education.zfr.common.mvc.HttpResult;
+import com.education.zfr.common.mvc.Servlets;
 import com.education.zfr.common.utils.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zangfr on 2017/4/19.
  */
 @Controller
-@RequestMapping("staff")
+@RequestMapping("/staff")
 public class StaffController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StaffController.class);
@@ -44,9 +46,17 @@ public class StaffController {
      * @return
      */
     @RequestMapping("staffList")
-    public String getStaffList(Model model) {
-        List<CpnStaff> cpnStaffList = staffService.getStaffList();
-        model.addAttribute("cpnStaffs", cpnStaffList);
+    public String getStaffList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNumber,
+                               @RequestParam(value = "numPerPage", defaultValue = "20") int pageSize,
+                               Model model, ServletRequest request) {
+        Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+        Page<CpnStaff> staffs = staffService.getStaffList(searchParams, pageNumber, pageSize);
+
+        model.addAttribute("cpnStaffs", staffs);
+        model.addAttribute("totalCount",staffs.getTotalElements());
+        model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
+        model.addAttribute("pageNum", pageNumber);
+        model.addAttribute("numPerPage", pageSize);
         return "biz/staff/staffList";
     }
 
@@ -65,8 +75,7 @@ public class StaffController {
      *
      * @param staff
      * @return
-     * @startuml
-     * start
+     * @startuml start
      * if(find staff by staffNumber) then (not found)
      * :save staff;
      * :save staff department rel;
@@ -77,29 +86,34 @@ public class StaffController {
      * end
      * @enduml
      */
-    @RequestMapping("addStaff")
-    public HttpResult addStaff(@ModelAttribute("staff") CpnStaff staff) {
+    @RequestMapping("/addStaff")
+    @ResponseBody
+    public HttpResult addStaff(CpnStaff staff) {
         HttpResult result = new HttpResult();
         CpnDepartmentStaffRel cpnDepartmentStaffRel = new CpnDepartmentStaffRel();
         CpnPositionStaffRel cpnPositionStaffRel = new CpnPositionStaffRel();
         try {
-            if (null == staffService.findByStaffNumber(staff.getStaffNumber())) {
-                staffService.saveStaff(staff);
-                cpnDepartmentStaffRel.setStaffId(staff.getStaffId());
-                cpnDepartmentStaffRel.setDepartmentId(staff.getDepartmentId());
-                if (null == departmentStaffRelService.findByStaffIdAndDepartmentId(
-                        cpnDepartmentStaffRel.getStaffId(), cpnDepartmentStaffRel.getDepartmentId())) {
-                    departmentStaffRelService.saveDepartmentStaffRel(cpnDepartmentStaffRel);
+            if (null != staff) {
+                if (null == staffService.findByStaffNumber(staff.getStaffNumber())) {
+                    staffService.saveStaff(staff);
+                    cpnDepartmentStaffRel.setStaffId(staff.getStaffId());
+                    cpnDepartmentStaffRel.setDepartmentId(staff.getDepartmentId());
+                    if (null == departmentStaffRelService.findByStaffIdAndDepartmentId(
+                            cpnDepartmentStaffRel.getStaffId(), cpnDepartmentStaffRel.getDepartmentId())) {
+                        departmentStaffRelService.saveDepartmentStaffRel(cpnDepartmentStaffRel);
+                    }
+                    cpnPositionStaffRel.setStaffId(staff.getStaffId());
+                    cpnPositionStaffRel.setPositionId(staff.getPositionId());
+                    if (null == positionStaffRelService.findByStaffIdAndPositionId(
+                            cpnPositionStaffRel.getStaffId(), cpnPositionStaffRel.getPositionId())) {
+                        positionStaffRelService.savePositionStaffRel(cpnPositionStaffRel);
+                    }
+                    result.setResult(Constants.HTTP_SYSTEM_OK, Constants.MESSAGE_OPERATION_OK);
+                } else {
+                    result.setResult(Constants.HTTP_SYSTEM_ERROR, "员工信息已存在");
                 }
-                cpnPositionStaffRel.setStaffId(staff.getStaffId());
-                cpnPositionStaffRel.setPositionId(staff.getPositionId());
-                if (null == positionStaffRelService.findByStaffIdAndPositionId(
-                        cpnPositionStaffRel.getStaffId(), cpnPositionStaffRel.getPositionId())) {
-                    positionStaffRelService.savePositionStaffRel(cpnPositionStaffRel);
-                }
-                result.setResult(Constants.HTTP_SYSTEM_OK, Constants.MESSAGE_OPERATION_OK);
-            } else {
-                result.setResult(Constants.HTTP_SYSTEM_ERROR, "员工信息已存在");
+            }else{
+                result.setResult(Constants.HTTP_SYSTEM_ERROR, "新增员工失败");
             }
         } catch (Exception e) {
             result.setResult(Constants.HTTP_SYSTEM_ERROR, "新增员工失败");
@@ -115,8 +129,8 @@ public class StaffController {
      * @param model
      * @return
      */
-    @RequestMapping("toUpdateStaff/{staffId}")
-    public String toUpdateStaff(@PathVariable("staffId") Long staffId, Model model) {
+    @RequestMapping("toUpdateStaff/{id}")
+    public String toUpdateStaff(@PathVariable("id") Long staffId, Model model) {
         model.addAttribute("staff", staffService.findStaffByStaffId(staffId));
         return "biz/staff/staffInfo";
     }
@@ -128,12 +142,17 @@ public class StaffController {
      * @return
      */
     @RequestMapping("updateStaff")
-    public HttpResult updateStaff(@ModelAttribute("staff") CpnStaff staff) {
+    @ResponseBody
+    public HttpResult updateStaff(CpnStaff staff) {
         HttpResult result = new HttpResult();
         CpnDepartmentStaffRel cpnDepartmentStaffRel = departmentStaffRelService.findByStaffId(staff.getStaffId());
-        cpnDepartmentStaffRel.setDepartmentId(staff.getDepartmentId());
+        if(null != cpnDepartmentStaffRel) {
+            cpnDepartmentStaffRel.setDepartmentId(staff.getDepartmentId());
+        }
         CpnPositionStaffRel cpnPositionStaffRel = positionStaffRelService.findByStaffId(staff.getStaffId());
-        cpnPositionStaffRel.setPositionId(staff.getPositionId());
+        if(null != cpnPositionStaffRel) {
+            cpnPositionStaffRel.setPositionId(staff.getPositionId());
+        }
         try {
             staffService.saveStaff(staff);
             departmentStaffRelService.saveDepartmentStaffRel(cpnDepartmentStaffRel);
@@ -152,10 +171,14 @@ public class StaffController {
      * @param staffId
      * @return
      */
-    @RequestMapping("delete")
-    public HttpResult deleteStaff(@PathVariable("staffId") Long staffId) {
+    @RequestMapping("delete/{id}")
+    @ResponseBody
+    public HttpResult deleteStaff(@PathVariable("id") Long staffId) {
         HttpResult result = new HttpResult();
-        if (staffService.deleteStaffById(staffId)) {
+        Boolean deleted = staffService.deleteStaffById(staffId)
+                &&departmentStaffRelService.deleteByStaffId(staffId)
+                &&positionStaffRelService.deleteByStaffId(staffId) ? true : false;
+        if (deleted) {
             result.setResult(Constants.HTTP_SYSTEM_OK, Constants.MESSAGE_OPERATION_OK);
         } else {
             result.setResult(Constants.HTTP_SYSTEM_ERROR, Constants.MESSAGE_OPERATION_ERROR);

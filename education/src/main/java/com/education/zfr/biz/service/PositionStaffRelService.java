@@ -25,4 +25,10 @@ public class PositionStaffRelService {
     public CpnPositionStaffRel findByStaffId(Long staffId) {
         return positionStaffRelDao.findByStaffId(staffId);
     }
+
+    public boolean deleteByStaffId(Long staffId) {
+        CpnPositionStaffRel positionStaffRel = positionStaffRelDao.findByStaffId(staffId);
+        positionStaffRelDao.delete(positionStaffRel);
+        return true;
+    }
 }

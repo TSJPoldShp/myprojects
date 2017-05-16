@@ -25,4 +25,10 @@ public class DepartmentStaffRelService {
     public CpnDepartmentStaffRel findByStaffId(Long staffId) {
         return departmentStaffRelDao.findByStaffId(staffId);
     }
+
+    public Boolean deleteByStaffId(Long staffId){
+        CpnDepartmentStaffRel departmentStaffRel = departmentStaffRelDao.findByStaffId(staffId);
+        departmentStaffRelDao.delete(departmentStaffRel);
+        return true;
+    }
 }

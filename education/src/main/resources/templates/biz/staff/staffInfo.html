@@ -1,43 +1,84 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <title>员工信息</title>
+    <script th:inline="javascript">
+        function dialogAjaxDone(json) {
+            ajaxDone(json);
+            if (json.statusCode == DWZ.statusCode.ok) {
+                if (json.navTabId) {
+                    navTab.reload(json.forwardUrl, {}, json.navTabId);
+                } else {
+                    navTab.reload();
+                }
+            } else if (json.statusCode == 206) {
+                navTab.reload();
+            }
+            $.pdialog.closeCurrent();
+        }
+        function ajaxDone(json) {
+            if (json.statusCode == DWZ.statusCode.error) {
+                if (json.message) {
+                    if (alertMsg) {
+                        alertMsg.error(json.message);
+                    }
+                }
+            } else if (json.statusCode == DWZ.statusCode.timeout) {
+                if (alertMsg) alertMsg.error(json.message || DWZ.msg("sessionTimout"), {okCall: DWZ.loadLogin});
+                else DWZ.loadLogin();
+            } else if (json.statusCode == 206) {
+                if (json.message) {
+                    if (alertMsg) {
+                        alertMsg.warn(json.message);
+                    }
+                }
+            }
+            else {
+                if (json.message) {
+                    if (alertMsg) {
+                        alertMsg.correct(json.message);
+                    }
+                }
+            };
+        }
+    </script>
 </head>
 <body>
 <div class="pageContent">
-    <form id="inputForm" method="post" name="inputForm"
-          action="staff/updateStaff">
+    <form id="inputForm" method="post" name="inputForm" th:object="${staff}"
+          action="staff/updateStaff" onsubmit="return iframeCallback(this,dialogAjaxDone);">
 
         <div class="pageFormContent" layoutH="56">
+            <input name="staffId" th:value="${staff.staffId}" type="text" hidden="hidden"/>
             <p>
                 <label>姓名：</label>
-                <input th:text="${staff.staffName}" type="text" class="required bring_roughUrl" readonly="readonly"/>
+                <input name="staffName" th:value="${staff.staffName}" type="text" class="required bring_staffName" readonly="readonly"/>
             </p>
             <p style="width: 600px;">
                 <label>性别：</label>
-                <input th:text="${staff.staffGender}" type="text" class="required bring_roughUrl" readonly="readonly"/>
+                <input name="staffGender" th:value="${staff.staffGender}" type="text" class="required bring_staffGender" readonly="readonly"/>
             </p>
             <p>
                 <label>身份证号：</label>
-                <input th:text="${staff.staffNumber}" type="text" class="required bring_roughTitle" readonly="readonly"/>
+                <input name="staffNumber" th:value="${staff.staffNumber}" type="text" class="required bring_staffNumber" readonly="readonly"/>
             </p>
             <p>
                 <label>部门ID：</label>
-                <input th:text="${staff.staffDepartmentId}" type="text" class="required bring_roughUrl"/>
+                <input name="departmentId" th:value="${staff.departmentId}" type="text" class="required bring_departmentId"/>
             </p>
 
             <p>
                 <label>职位ID：</label>
-                <input th:text="${staff.staffPositionId}" type="text" class="required bring_roughUrl"/>
+                <input name="positionId" th:value="${staff.positionId}" type="text" class="required bring_positionId"/>
             </p>
             <p>
                 <label>登录帐号：</label>
-                <input th:text="${staff.loginName}" type="text" class="required bring_roughUrl" readonly="readonly"/>
+                <input name="loginName" th:value="${staff.loginName}" type="text" class="required bring_loginName" readonly="readonly"/>
             </p>
             <p>
                 <label>登录密码：</label>
-                <input th:text="${staff.loginPwd}" type="text" class="required bring_roughUrl" />
+                <input name="loginPwd" th:value="${staff.loginPwd}" type="text" class="required bring_loginPwd" />
             </p>
 
         </div>
