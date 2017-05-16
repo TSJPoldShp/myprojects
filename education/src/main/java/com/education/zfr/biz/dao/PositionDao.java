@@ -8,4 +8,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * Created by zangfr on 2017/5/5.
  */
 public interface PositionDao  extends PagingAndSortingRepository<CpnPosition,Long>,JpaSpecificationExecutor<CpnPosition> {
+    CpnPosition findByPositionId(Long positionId);
 }

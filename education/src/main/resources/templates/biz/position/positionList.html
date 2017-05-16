@@ -1,10 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>职位管理</title>
+    <title>部门管理</title>
 </head>
 <body>
+<form id="pagerForm" action="position/positionList" method="post">
+    <!--【必须】value=1可以写死-->
+    <input type="hidden" name="pageNum" th:value="${pageNum}" />
+    <!--【可选】每页显示多少条-->
+    <input type="hidden" name="numPerPage" th:value="${numPerPage}" />
+    <!--【查询条件】用户名字-->
+    <input type="hidden" name="search_LIKE_positionName"
+           th:value="${#strings.isEmpty(param.search_LIKE_positionName)}?'':${param.search_LIKE_positionName[0]}" />
+</form>
 
+<div class="pageHeader">
+    <form onsubmit="return navTabSearch(this);"
+          action="position/positionList">
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <td style="padding: 5px 5px 0 0">部门名称：
+                        <input type="text" name="search_LIKE_positionName"
+                               th:value="${#strings.isEmpty(param.search_LIKE_positionName)}?'':${param.search_LIKE_positionName[0]}" />
+                    </td>
+                    <td><div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit">检索</button>
+                        </div>
+                    </div></td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="pageContent">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a class="add" href="position/toAddPosition" target="dialog"
+                   rel="dialog1" mask="true" height="400"><span>添加职位</span></a></li>
+            <li><a class="edit" href="position/toUpdatePosition/{id}" rel="ids"
+                   id="staffUpdate" warn="请选中其中一条记录" target="dialog" mask="true" height="400"><span>修改职位</span></a></li>
+            <li><a title="确实要删除这些记录吗?" target="selectedTodo" rel="ids"
+                   href="sysUser/delete" class="delete" warn="请选中其中要删除的记录"><span>删除职位</span></a></li>
+        </ul>
+    </div>
+    <table class="table" width="99%" layoutH="116">
+        <thead>
+        <tr>
+            <th width="40" align="center">
+                <input type="checkbox" group="ids" class="checkboxCtrl" /></th>
+            <th>部门名称</th>
+            <th>父部门名称</th>
+            <th>创建时间</th>
+            <th>创建人</th>
+            <th>更新时间</th>
+            <th>更新人</th>
+        </tr>
+        </thead>
+        <tbody id="update">
+        <tr target="id" th:each="department:${departments}" th:rel="${department.departmentId}">
+            <td><input type="hidden" th:id="${department.departmentId}"/>
+                <input name="ids" th:value="${department.departmentId}" type="checkbox"/></td>
+            <td th:text="${department.departmentName}"></td>
+            <td th:text="${@departmentController.getDepartmentName(department.parentId)}"></td>
+            <td th:text="${department.createTime}"></td>
+            <td th:text="${department.createBy}"></td>
+            <td th:text="${department.updateTime}"></td>
+            <td th:text="${department.updateBy}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="panelBar">
+        <div class="pages">
+            <span>显示</span> <select class="combox" name="numPerPage"
+                                    onchange="navTabPageBreak({numPerPage:this.value})">
+            <option value="20" th:if="${numPerPage==20}" selected="selected">20</option>
+            <option value="20" th:if="${numPerPage!=20}">20</option>
+            <option value="50" th:if="${numPerPage==50}" selected="selected">50</option>
+            <option value="50" th:if="${numPerPage!=50}" >50</option>
+            <option value="100" th:if="${numPerPage==100}" selected="selected">100</option>
+            <option value="100" th:if="${numPerPage!=100}">100</option>
+        </select> <span th:text="'条，共'+${totalCount}+'条'"></span>
+        </div>
+        <div class="pagination" targetType="navTab"
+             th:attr="totalCount=${totalCount}, numPerPage=${numPerPage},
+             pageNumShown=10, currentPage=${pageNum}"></div>
+    </div>
+</div>
 </body>
 </html>

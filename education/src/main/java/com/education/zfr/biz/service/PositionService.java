@@ -1,5 +1,7 @@
 package com.education.zfr.biz.service;
 
+import com.education.zfr.biz.dao.PositionDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -7,4 +9,17 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PositionService {
+
+    @Autowired
+    private PositionDao positionDao;
+
+    public String getNameByPositionId(Long positionId) {
+        String positionName;
+        try{
+            positionName = positionDao.findByPositionId(positionId).getPositionName();
+        }catch (Exception e){
+            positionName = "无";
+        }
+        return positionName;
+    }
 }
