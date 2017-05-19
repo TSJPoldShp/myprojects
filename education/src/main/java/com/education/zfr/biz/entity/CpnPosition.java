@@ -2,12 +2,7 @@ package com.education.zfr.biz.entity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "cpn_position")
@@ -26,6 +21,22 @@ public class CpnPosition{
      */
     @Column(name="PARENT_ID")
     private Long parentId;
+
+
+    @Transient
+    private String parentName;
+
+    /**
+     * 部门编号
+     */
+    @Column(name="DEPARTMENT_ID")
+    private Long departmentId;
+
+    /**
+     * 部门名称
+     */
+    @Transient
+    private String departmentName;
 
     /**
      *职位名称
@@ -57,6 +68,7 @@ public class CpnPosition{
     @Column(name="UPDATE_BY")
     private String updateBy;
 
+
     public void setPositionId(Long positionId){
         this.positionId=positionId;
     }
@@ -69,6 +81,23 @@ public class CpnPosition{
     public Long getParentId(){
         return parentId;
     }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
+
     public void setPositionName(String positionName){
         this.positionName=positionName;
     }
@@ -99,6 +128,15 @@ public class CpnPosition{
     public String getUpdateBy(){
         return updateBy;
     }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
     @Override
     public String toString()
     {

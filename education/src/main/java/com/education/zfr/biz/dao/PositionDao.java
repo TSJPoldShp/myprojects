@@ -9,4 +9,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  */
 public interface PositionDao  extends PagingAndSortingRepository<CpnPosition,Long>,JpaSpecificationExecutor<CpnPosition> {
     CpnPosition findByPositionId(Long positionId);
+
+    CpnPosition findByPositionNameAndDepartmentId(String positionName, Long departmentId);
+
+    CpnPosition findByPositionName(String positionName);
 }

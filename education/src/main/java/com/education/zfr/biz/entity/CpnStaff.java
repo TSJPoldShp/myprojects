@@ -24,10 +24,22 @@ public class CpnStaff {
     private Long departmentId;
 
     /**
+     * 部门名称
+     */
+    @Transient
+    private String departmentName;
+
+    /**
      * 职位编号
      */
     @Column(name = "POSITION_ID")
     private Long positionId;
+
+    /**
+     * 职位名称
+     */
+    @Transient
+    private String positionName;
 
     /**
      * 员工姓名
@@ -110,6 +122,22 @@ public class CpnStaff {
 
     public void setPositionId(Long positionId) {
         this.positionId = positionId;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getPositionName() {
+        return positionName;
+    }
+
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
     }
 
     public Long getPositionId() {

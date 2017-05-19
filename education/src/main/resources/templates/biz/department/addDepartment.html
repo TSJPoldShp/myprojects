@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>员工信息</title>
+    <title>新增部门</title>
     <script th:inline="javascript">
         function dialogAjaxDone(json) {
             ajaxDone(json);
@@ -46,41 +46,33 @@
 </head>
 <body>
 <div class="pageContent">
-    <form id="inputForm" method="post" name="inputForm" th:object="${staff}"
-          action="staff/updateStaff" onsubmit="return iframeCallback(this,dialogAjaxDone);">
+    <form id="inputForm" method="post" name="inputForm"
+          action="department/addDepartment" th:object="${department}"
+          onsubmit="return iframeCallback(this,dialogAjaxDone);">
 
         <div class="pageFormContent" layoutH="56">
-            <input name="staffId" th:value="${staff.staffId}" type="text" hidden="hidden"/>
-            <p>
-                <label>姓名：</label>
-                <input name="staffName" th:value="${staff.staffName}" type="text" class="required bring_staffName" readonly="readonly"/>
-            </p>
             <p style="width: 600px;">
-                <label>性别：</label>
-                <input name="staffGender" th:value="${staff.staffGender}" type="text" class="required bring_staffGender" readonly="readonly"/>
-            </p>
-            <p>
-                <label>身份证号：</label>
-                <input name="staffNumber" th:value="${staff.staffNumber}" type="text" class="required bring_staffNumber" readonly="readonly"/>
+                <label>父部门名称：</label>
+                <input type="text" class="required bring_parentName" name="parentName" th:value="${parentName}"/>
             </p>
             <p>
                 <label>部门名称：</label>
-                <input name="departmentId" hidden="hidden" th:value="${staff.departmentId}"/>
-                <input name="departmentName" th:value="${@departmentController.getDepartmentName(staff.departmentId)}" type="text" class="required bring_departmentId"/>
+                <input type="text" class="required bring_departmentName" name="departmentName" th:value="${departmentName}"/>
             </p>
             <p>
-                <label>职位名称：</label>
-                <input name="positionId" hidden="hidden" th:value="${staff.positionId}"/>
-                <input name="positionName" th:value="${@positionController.getPositionName(staff.positionId)}" type="text" class="required bring_positionName"/>
+                <label>部门详情：</label>
+                <input type="text" class="required bring_departmentDesc" name="departmentDesc" th:value="${departmentDesc}"/>
             </p>
         </div>
         <div class="formBar">
             <ul>
-                <li><div class="buttonActive">
-                    <div class="buttonContent">
-                        <button type="submit">保存</button>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit">保存</button>
+                        </div>
                     </div>
-                </div></li>
+                </li>
                 <li>
                     <div class="button">
                         <div class="buttonContent">

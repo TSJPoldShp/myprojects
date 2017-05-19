@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" charset="UTF-8"/>
     <title>员工管理</title>
@@ -11,7 +11,8 @@
     <input type="hidden" name="pageNum" th:value="${pageNum}" />
     <!--【可选】每页显示多少条-->
     <input type="hidden" name="numPerPage" th:value="${numPerPage}" />
-    <input type="hidden" name="search_LIKE_staffName" th:value="${#strings.isEmpty(param.search_LIKE_staffName)}?'':${param.search_LIKE_name[0]}"/>
+    <!--【查询条件】-->
+    <input type="hidden" name="search_LIKE_staffName" th:value="${#strings.isEmpty(param.search_LIKE_staffName)}?'':${param.search_LIKE_staffName[0]}"/>
 </form>
 
 <div class="pageHeader">
@@ -20,15 +21,15 @@
         <div class="searchBar">
             <table class="searchContent">
                 <tr>
-                        <td style="padding: 5px 5px 0 0">姓名：
+                    <td style="padding: 5px 5px 0 0">姓名：
                             <input type="text" name="search_LIKE_staffName"
                                    th:value="${#strings.isEmpty(param.search_LIKE_staffName)}?'':${param.search_LIKE_staffName[0]}" />
-                        </td>
-                        <td><div class="buttonActive">
-                            <div class="buttonContent">
-                                <button type="submit">检索</button>
-                            </div>
-                        </div></td>
+                    </td>
+                    <td><div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit">检索</button>
+                        </div>
+                    </div></td>
                 </tr>
             </table>
         </div>
@@ -43,8 +44,8 @@
                        rel="dialog1" mask="true" height="400"><span>添加员工</span></a></li>
                 <li><a class="edit" href="staff/toUpdateStaff/{id}" rel="ids"
                        id="staffUpdate" warn="请选中其中一条记录" target="dialog" height="400"><span>修改员工</span></a></li>
-                <li><a title="确实要删除这些记录吗?" target="ajaxTodo" rel="ids"
-                       href="staff/delete/{id}" class="delete" warn="请选中其中要删除的记录"><span>删除员工</span></a></li>
+                <li><a title="确实要删除这些记录吗?" target="selectedTodo" rel="ids"
+                       href="staff/delete" class="delete" warn="请选中其中要删除的记录"><span>删除员工</span></a></li>
         </ul>
     </div>
     <table class="table" width="99%" layoutH="116">
@@ -57,7 +58,6 @@
             <th>身份证号</th>
             <th>部门</th>
             <th>职位</th>
-            <th>登录帐号</th>
             <th>创建时间</th>
             <th>创建人</th>
             <th>更新时间</th>
@@ -73,7 +73,6 @@
             <td th:text="${staff.staffNumber}"></td>
             <td th:text="${@departmentController.getDepartmentName(staff.departmentId)}"></td>
             <td th:text="${@positionController.getPositionName(staff.positionId)}"></td>
-            <td th:text="${staff.loginName}"></td>
             <td th:text="${staff.createTime}"></td>
             <td th:text="${staff.createBy}"></td>
             <td th:text="${staff.updateTime}"></td>

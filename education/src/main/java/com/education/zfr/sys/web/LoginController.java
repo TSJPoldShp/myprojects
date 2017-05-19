@@ -14,16 +14,21 @@ public class LoginController {
     @Autowired
     public StaffService staffService;
 
-    @RequestMapping("getLogin")
+    @RequestMapping("login")
+    public String login(){
+        return "login/login";
+    }
+
+    @RequestMapping("index")
     public String getLogin(@RequestParam(value="username")String username,@RequestParam(value="password")String password){
         CpnStaff cpnStaff = staffService.findByLoginNameAndLoginPwd(username,password);
         if( null != cpnStaff){
             return "index";
         }
-        return "/sys/login";
+        return "/login/login";
     }
 
-    @RequestMapping("index")
+    @RequestMapping("index1")
     public String getIndex(){
         return "index";
     }

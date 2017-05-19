@@ -3,6 +3,8 @@ package com.education.zfr.biz.service;
 import com.education.zfr.biz.dao.DepartmentDao;
 import com.education.zfr.biz.entity.CpnDepartment;
 import com.education.zfr.common.mvc.PageUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,8 @@ import java.util.Map;
  */
 @Service
 public class DepartmentService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentService.class);
 
     @Autowired
     private DepartmentDao departmentDao;
@@ -35,5 +39,31 @@ public class DepartmentService {
             departmentName = "无";
         }
         return departmentName;
+    }
+
+    public Long getIdByDepartmentName(String departmentName) {
+        Long departmentId;
+        try{
+            departmentId = departmentDao.findByDepartmentName(departmentName).getDepartmentId();
+        }catch (Exception e){
+            departmentId = 0L;
+        }
+        return departmentId;
+    }
+
+    public void save(CpnDepartment department) {
+        departmentDao.save(department);
+    }
+
+    public CpnDepartment getDepartmentById(Long id) {
+        return departmentDao.findByDepartmentId(id);
+    }
+
+    public void delete(Long departmentId) {
+        departmentDao.delete(departmentId);
+    }
+
+    public CpnDepartment getDepartmentByName(String departmentName) {
+        return departmentDao.findByDepartmentName(departmentName);
     }
 }

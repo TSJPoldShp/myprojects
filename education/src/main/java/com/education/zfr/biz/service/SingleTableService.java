@@ -81,7 +81,7 @@ public class SingleTableService {
             for (CpnStaff staff : unSave) {
                 content.append("第" + staff.getNumber() + "条数据导入失败,原因[" + staff.getDesc() + "]");
             }
-            result.setResult(Constants.HTTP_SYSTEM_WARN, "本次导入成功" + save + "条," + "失败" + unsave + "条," + "合计" + all + "条." + content);
+            result.setResult(Constants.HTTP_SYSTEM_WARN, "本次导入成功" + save + "条," + "失败" + unsave + "条," + "合计" + all + "条." + content+";");
         }
         return result;
     }

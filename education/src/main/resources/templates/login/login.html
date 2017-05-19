@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>热点短视频生产管理系统(V1.1.0)</title>
+    <title>企业员工管理系统</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script th:src="@{dwz/js/login/login.js}"></script>
 </head>
@@ -171,8 +171,8 @@
 <body onKeyPress="EnterSumbit()" >
 <div id="shadow" style="visibility: hidden;"></div>
 <div id="login">
-    <h1 id='appTitle'>热点短视频生产管理系统 (V1.1.0)</h1>
-    <form name="loginForm" id="loginForm" method="post" th:action="@{/getLogin}">
+    <h1 id='appTitle'>企业员工管理系统</h1>
+    <form name="loginForm" id="loginForm" method="post" th:action="@{/index}">
         <div class="alert alert-error input-medium controls" th:if="!${#strings.isEmpty(msg)}">
             <button class="close" data-dismiss="alert">×</button>
             <font style="color: red" th:text="${msg}">
@@ -182,11 +182,11 @@
             <p class="error_message" id="error_message">&nbsp;</p>
 
             <p>
-                <label for='userId'>用户</label> <input type="text" name="username"
+                <label>用户</label> <input type="text" name="username"
                                                       id="username" class="logintxt w1" th:value="${username}" />
             </p>
             <p>
-                <label for='pass'>密码</label> <input type="password" name="password"
+                <label>密码</label> <input type="password" name="password"
                                                     id="password" class="logintxt w1" th:value="${password}" />
             </p>
             <p id="login_ctr">

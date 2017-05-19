@@ -61,15 +61,15 @@
             </p>
             <p>
                 <label>身份证号：</label>
-                <input type="text" class="required bring_staffNumber" name="staffNumber" th:value="${staffNumber}"/>
+                <input type="number" minlength="18" maxlength="18" class="required bring_staffNumber" name="staffNumber" th:value="${staffNumber}"/>
             </p>
             <p>
-                <label>部门ID：</label>
-                <input type="text" class="required bring_departmentId" name="departmentId" th:value="${departmentId}"/>
+                <label>部门名称：</label>
+                <input type="text" class="required bring_departmentName" name="departmentName" th:value="${departmentName}"/>
             </p>
             <p>
-                <label>职位ID：</label>
-                <input type="text" class="required bring_positionId" name="positionId" th:value="${positionId}"/>
+                <label>职位名称：</label>
+                <input type="text" class="required bring_positionName" name="positionName" th:value="${positionName}"/>
             </p>
             <p>
                 <label>登录帐号：</label>

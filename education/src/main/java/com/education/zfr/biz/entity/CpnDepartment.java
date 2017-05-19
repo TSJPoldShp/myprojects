@@ -3,12 +3,7 @@ package com.education.zfr.biz.entity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "cpn_department")
@@ -27,6 +22,12 @@ public class CpnDepartment{
      */
     @Column(name="PARENT_ID")
     private Long parentId;
+
+    /**
+     * 父部门名称
+     */
+    @Transient
+    private String parentName;
 
     /**
      *部门名称
@@ -76,6 +77,15 @@ public class CpnDepartment{
     public Long getParentId(){
         return parentId;
     }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
+
     public void setDepartmentName(String departmentName){
         this.departmentName=departmentName;
     }
