@@ -51,11 +51,6 @@
 
         <div class="pageFormContent" layoutH="56">
             <input name="positionId" type="hidden" th:value="${position.positionId}"/>
-            <p>
-                <label>父职位名称：</label>
-                <input name="parentId" th:value="${position.parentId}" hidden="hidden"/>
-                <input name="parentName" th:value="${@positionController.getPositionName(position.parentId)}" type="text" class="required bring_parentName" readonly="readonly"/>
-            </p>
             <p style="width: 600px;">
                 <label>职位名称：</label>
                 <input name="positionName" th:value="${position.positionName}" type="text" class="required bring_positionName"/>

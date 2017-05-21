@@ -3,6 +3,7 @@ package com.education.zfr.biz.service;
 import com.education.zfr.biz.dao.DepartmentDao;
 import com.education.zfr.biz.entity.CpnDepartment;
 import com.education.zfr.common.mvc.PageUtil;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,5 +66,16 @@ public class DepartmentService {
 
     public CpnDepartment getDepartmentByName(String departmentName) {
         return departmentDao.findByDepartmentName(departmentName);
+    }
+
+    public List<CpnDepartment> getDepartmentByParentId(Long departmentId) {
+        List<CpnDepartment> departments = Lists.newArrayList();
+        try{
+            departments = departmentDao.findByParentId(departmentId);
+        }catch(Exception e){
+            departments = null;
+            LOGGER.error("throw exception.",e);
+        }
+        return departments;
     }
 }

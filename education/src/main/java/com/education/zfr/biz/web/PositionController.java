@@ -39,6 +39,7 @@ public class PositionController {
 
     /**
      * 进入职位管理页面
+     *
      * @param pageNumber
      * @param pageSize
      * @param model
@@ -48,11 +49,11 @@ public class PositionController {
     @RequestMapping("positionList")
     public String positionList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNumber,
                                @RequestParam(value = "numPerPage", defaultValue = "20") int pageSize,
-                               Model model, ServletRequest request){
+                               Model model, ServletRequest request) {
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
         Page<CpnPosition> positions = positionService.getPositionList(searchParams, pageNumber, pageSize);
-        model.addAttribute("positions",positions);
-        model.addAttribute("totalCount",positions.getTotalElements());
+        model.addAttribute("positions", positions);
+        model.addAttribute("totalCount", positions.getTotalElements());
         model.addAttribute("searchParams", Servlets.encodeParameterStringWithPrefix(searchParams, "search_"));
         model.addAttribute("pageNum", pageNumber);
         model.addAttribute("numPerPage", pageSize);
@@ -60,93 +61,89 @@ public class PositionController {
     }
 
     @RequestMapping("toAddPosition")
-    public String toAddPosition(){
+    public String toAddPosition() {
         return "biz/position/addPosition";
     }
 
     /**
      * 新增职位
+     *
      * @param position
      * @return
      */
     @RequestMapping("addPosition")
     @ResponseBody
-    public HttpResult addPosition(CpnPosition position){
+    public HttpResult addPosition(CpnPosition position) {
         HttpResult result = new HttpResult();
         try {
             Long departmentId = departmentService.getIdByDepartmentName(position.getDepartmentName());
-            Long positionId = positionService.getIdByPositionNameAndDepartmentId(position.getParentName(),departmentId);
-            if(0 != positionId) {
-                if(0 != departmentId) {
-                    position.setParentId(positionId);
-                    position.setDepartmentId(departmentId);
-                    positionService.save(position);
-                    result.setResult(Constants.HTTP_SYSTEM_OK, Constants.MESSAGE_OPERATION_OK);
-                }else{
-                    result.setResult(Constants.HTTP_SYSTEM_ERROR,"部门不存在");
-                }
-            }else{
-                result.setResult(Constants.HTTP_SYSTEM_ERROR,"职位不存在");
+            if (0 != departmentId) {
+                position.setDepartmentId(departmentId);
+                positionService.save(position);
+                result.setResult(Constants.HTTP_SYSTEM_OK, Constants.MESSAGE_OPERATION_OK);
+            } else {
+                result.setResult(Constants.HTTP_SYSTEM_ERROR, "部门不存在");
             }
-        }catch (Exception e){
-            result.setResult(Constants.HTTP_SYSTEM_ERROR,Constants.MESSAGE_OPERATION_ERROR);
+        } catch (Exception e) {
+            result.setResult(Constants.HTTP_SYSTEM_ERROR, Constants.MESSAGE_OPERATION_ERROR);
         }
         return result;
     }
 
     @RequestMapping("toUpdatePosition/{id}")
-    public String toUpdatePosition(@PathVariable("id")Long id,Model model){
+    public String toUpdatePosition(@PathVariable("id") Long id, Model model) {
         CpnPosition position = positionService.findByPositionId(id);
-        model.addAttribute("position",position);
+        model.addAttribute("position", position);
         return "biz/position/positionInfo";
     }
 
     /**
      * 更新职位
+     *
      * @param position
      * @return
      */
     @RequestMapping("updatePosition")
     @ResponseBody
-    public HttpResult updatePosition(CpnPosition position){
+    public HttpResult updatePosition(CpnPosition position) {
         HttpResult result = new HttpResult();
-        try{
+        try {
             Long departmentId = departmentService.getIdByDepartmentName(position.getDepartmentName());
-            if(0 != departmentId){
-                if(null == positionService.getPositionByNameAndDepartment(position.getPositionName(),departmentId)) {
+            if (0 != departmentId) {
+                if (null == positionService.getPositionByNameAndDepartment(position.getPositionName(), departmentId)) {
                     position.setDepartmentId(departmentId);
                     positionService.save(position);
                     result.setResult(Constants.HTTP_SYSTEM_OK, Constants.MESSAGE_OPERATION_OK);
-                }else{
-                    result.setResult(Constants.HTTP_SYSTEM_ERROR,"职位已存在");
+                } else {
+                    result.setResult(Constants.HTTP_SYSTEM_ERROR, "职位已存在");
                 }
-            }else{
-                result.setResult(Constants.HTTP_SYSTEM_ERROR,"部门不存在");
+            } else {
+                result.setResult(Constants.HTTP_SYSTEM_ERROR, "部门不存在");
             }
-        }catch (Exception e){
-            result.setResult(Constants.HTTP_SYSTEM_ERROR,Constants.MESSAGE_OPERATION_ERROR);
+        } catch (Exception e) {
+            result.setResult(Constants.HTTP_SYSTEM_ERROR, Constants.MESSAGE_OPERATION_ERROR);
         }
         return result;
     }
 
     @RequestMapping("delete")
     @ResponseBody
-    public HttpResult deletePosition(HttpServletRequest request){
+    public HttpResult deletePosition(HttpServletRequest request) {
         HttpResult result = new HttpResult();
         String[] ids = request.getParameterValues("ids");
-        try{
-            for(String id : ids){
+        try {
+            for (String id : ids) {
                 Long positionId = Long.valueOf(id);
                 positionService.deletePosition(positionId);
             }
-            result.setResult(Constants.HTTP_SYSTEM_OK,Constants.MESSAGE_OPERATION_OK);
-        }catch (Exception e){
-            result.setResult(Constants.HTTP_SYSTEM_ERROR,Constants.MESSAGE_OPERATION_ERROR);
+            result.setResult(Constants.HTTP_SYSTEM_OK, Constants.MESSAGE_OPERATION_OK);
+        } catch (Exception e) {
+            result.setResult(Constants.HTTP_SYSTEM_ERROR, Constants.MESSAGE_OPERATION_ERROR);
         }
         return result;
     }
 
-    public String getPositionName(Long positionId){
+    public String getPositionName(Long positionId) {
         return positionService.getNameByPositionId(positionId);
     }
 }
