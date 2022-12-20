@@ -28,7 +28,6 @@ public class LoginController {
             model.addAttribute("userId",cpnStaff.getStaffId());
             return "index";
         }
-        System.out.println("打印");
         return "/login/login";
     }
 
